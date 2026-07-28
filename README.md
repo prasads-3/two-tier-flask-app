@@ -128,3 +128,33 @@ docker run -d \
 
 ```
 
+
+## HPA Testing
+
+To verify Horizontal Pod Autoscaler (HPA), use the following terminals:
+
+### Terminal 1 – Port Forward
+```bash
+kubectl port-forward svc/flask-service -n two-tier 5000:5000 --address=0.0.0.0
+```
+
+### Terminal 2 – Watch HPA
+```bash
+kubectl get hpa -n two-tier -w
+```
+
+### Terminal 3 – Generate Traffic
+```bash
+while true; do
+  curl http://localhost:5000 > /dev/null
+done
+```
+
+### Access Application
+Open in your browser:
+
+```
+http://localhost:5000
+```
+
+This setup generates continuous traffic to the Flask application, allowing you to observe HPA scaling events in real time.
